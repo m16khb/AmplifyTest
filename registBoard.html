@@ -17,18 +17,21 @@
   </head>
   <body>
     <form action="#" method="POST">
-      <input type="text" placeholder="title" name="title" /></br>
+      <input type="text" id="title" placeholder="title" name="title" /></br>
       <textarea name="content" id="content" placeholder="content" cols="30" rows="10"></textarea>
-      <input type="submit" value="등록">
+      <button
+        type="button"
+        onclick="callAPI(document.getElementById('title').value,document.getElementById('content').value)"
+      >등록</button>
     </form>
     <script>
-        var callAPI = (firstName, lastName) => {
+        var callAPI = (title, content) => {
           // instantiate a headers object
           var myHeaders = new Headers();
           // add content type header to object
           myHeaders.append('Content-Type', 'application/json');
           // using built in JSON utility package turn object to string and store in a variable
-          var raw = JSON.stringify({ firstName: firstName, lastName: lastName });
+          var raw = JSON.stringify({ title: this.title, content: this.content });
           // create a JSON object with parameters for API call and store in a variable
           var requestOptions = {
           method: 'POST',
@@ -38,7 +41,7 @@
           };
           // make API call with parameters and use promises to get response
           fetch(
-          'https://ygcucjqyxg.execute-api.ap-northeast-2.amazonaws.com/dev',
+          'https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev',
           requestOptions,
           )
           .then((response) => {
