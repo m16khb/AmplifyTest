@@ -14,8 +14,25 @@
     ></script>
     <meta charset="UTF-8" />
     <title>Simple Board to Lambda</title>
-    <!-- Add some CSS to change client UI -->
-    <!-- <script>
+  </head>
+  <body>
+    <a href="/registBoard.html">게시글 등록</a>
+  </body>
+</html>
+<!-- <form>
+    <label>First Name :</label>
+    <input type="text" id="fName" />
+    <label>Last Name :</label>
+    <input type="text" id="lName" />
+    <button
+      type="button"
+      onclick="callAPI(document.getElementById('fName').value,document.getElementById('lName').value)"
+    >
+      Call API
+    </button>
+  </form> -->
+<!-- Add some CSS to change client UI -->
+<!-- <script>
       // define the callAPI function that takes a first name and last name as parameters
       var callAPI = (firstName, lastName) => {
         // instantiate a headers object
@@ -46,21 +63,3 @@
           .catch((error) => console.log('error', error));
       };
     </script> -->
-  </head>
-  <body>
-    <button class="btn btn-primary"></button>
-    <form>
-      <label>First Name :</label>
-      <input type="text" id="fName" />
-      <label>Last Name :</label>
-      <input type="text" id="lName" />
-      <!-- set button onClick method to call function we defined passing input values as parameters -->
-      <button
-        type="button"
-        onclick="callAPI(document.getElementById('fName').value,document.getElementById('lName').value)"
-      >
-        Call API
-      </button>
-    </form>
-  </body>
-</html>
