@@ -13,54 +13,52 @@
       crossorigin="anonymous"
     ></script>
     <meta charset="UTF-8" />
-    <title>Simple Board to Lambda</title>
+    <title>Find Board</title>
   </head>
   <body>
-    <a href="/registBoard.html">게시글 등록</a>
-    <a href="/findBoard.html">게시글 검색</a>
-  </body>
-</html>
-<!-- <form>
-    <label>First Name :</label>
-    <input type="text" id="fName" />
-    <label>Last Name :</label>
-    <input type="text" id="lName" />
-    <button
-      type="button"
-      onclick="callAPI(document.getElementById('fName').value,document.getElementById('lName').value)"
-    >
-      Call API
-    </button>
-  </form> -->
-<!-- Add some CSS to change client UI -->
-<!-- <script>
-      // define the callAPI function that takes a first name and last name as parameters
-      var callAPI = (firstName, lastName) => {
+    <form action="#" method="POST">
+      <input
+        type="text"
+        id="search"
+        placeholder="search for title"
+        name="search"
+      />
+      <button
+        type="button"
+        onclick="callAPI(document.getElementById('search').value)"
+      >
+        검색
+      </button>
+    </form>
+    <script>
+      var callAPI = (search) => {
+        console.log(title, content);
         // instantiate a headers object
         var myHeaders = new Headers();
         // add content type header to object
         myHeaders.append('Content-Type', 'application/json');
         // using built in JSON utility package turn object to string and store in a variable
-        var raw = JSON.stringify({ firstName: firstName, lastName: lastName });
+        var raw = JSON.stringify({ search: search });
         // create a JSON object with parameters for API call and store in a variable
         var requestOptions = {
-          method: 'POST',
+          method: 'GET',
           headers: myHeaders,
           body: raw,
           redirect: 'follow',
         };
         // make API call with parameters and use promises to get response
         fetch(
-          'https://ygcucjqyxg.execute-api.ap-northeast-2.amazonaws.com/dev',
+          'https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board',
           requestOptions,
         )
           .then((response) => {
-            response.text();
+            console.log(response);
           })
           .then((result) => {
             console.log(result);
-            alert(JSON.parse(result).body);
           })
           .catch((error) => console.log('error', error));
       };
-    </script> -->
+    </script>
+  </body>
+</html>
