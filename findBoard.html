@@ -24,6 +24,7 @@
         name="search"
       />
       <button
+        class="btn btn-primary"
         type="button"
         onclick="callAPI(document.getElementById('search').value)"
       >
@@ -38,17 +39,15 @@
         // add content type header to object
         myHeaders.append('Content-Type', 'application/json');
         // using built in JSON utility package turn object to string and store in a variable
-        var raw = JSON.stringify({ search: search });
         // create a JSON object with parameters for API call and store in a variable
         var requestOptions = {
           method: 'GET',
           headers: myHeaders,
-          body: raw,
           redirect: 'follow',
         };
         // make API call with parameters and use promises to get response
         fetch(
-          'https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board',
+          `https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board?title=${search}`,
           requestOptions,
         )
           .then((response) => {
