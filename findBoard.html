@@ -50,7 +50,8 @@
           `https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board?title=${search}`,
           requestOptions,
         )
-          .then((response) => {
+          .then(async (response) => {
+            const response2 = await response;
             console.log(response);
             console.log(response.statusCode);
           })
