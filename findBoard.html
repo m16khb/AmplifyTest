@@ -42,11 +42,12 @@
         // create a JSON object with parameters for API call and store in a variable
         // make API call with parameters and use promises to get response
         fetch(
-          `https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board?title=${search}`
-        ).then((response) => {
+          `https://ojvje0rg3h.execute-api.ap-northeast-2.amazonaws.com/dev/board?title=${search}`,
+        )
+          .then((response) => {
             console.log(response.json());
-            console.log(await response.json());
-        }).catch((error) => console.log('error', error));
+          })
+          .catch((error) => console.log('error', error));
       };
     </script>
   </body>
