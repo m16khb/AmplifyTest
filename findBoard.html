@@ -47,6 +47,8 @@
           .then((response) => {
             const result = response.json();
             console.log(result);
+            console.log(result.body);
+            console.log(result.statusCode);
             console.log(result.Object);
             console.log(result.Object.body);
             console.log(result.Object.statusCode);
