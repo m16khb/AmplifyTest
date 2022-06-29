@@ -47,6 +47,7 @@
           )
           .then((response) => {
             const result = response.json();
+            console.log(result);
             console.log(result.Object.statusCode, result.Object.body);
           })
           .catch((error) => console.log('error', error));
