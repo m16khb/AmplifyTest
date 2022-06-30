@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+    <meta charset="UTF-8" />
+    <title>Image Board</title>
+  </head>
+  <body>
+    <form name="article_add_form" method="POST">
+      <table width="940" style="padding: 5px 0 5px 0">
+        <tr height="2">
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <th>Title</th>
+          <td><input type="text" id="title" required /></td>
+        </tr>
+        <tr>
+          <th>Content</th>
+          <td><input type="text" id="content" required /></td>
+        </tr>
+        <tr>
+          <th>사진</th>
+          <td><input type="file" id="article_image" name="filename" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <button type="button" onclick="submitToAPI(event)">등록</button>
+            <input type="reset" value="취소" />
+          </td>
+        </tr>
+      </table>
+    </form>
+    <script>
+      AWS.config.region = 'ap-northeast-2'; // 리전
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'ap-northeast-2:cd31ae71-b094-454f-9437-df5d7df0e11c',
+      });
+
+      AWS.config.update({
+        region: 'ap-northeast-2',
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: { Bucket: 'test-albumbucket' },
+      });
+
+      function submitToAPI(e) {
+        e.preventDefault();
+        add_article_with_photo('images');
+      }
+
+      function add_article_with_photo(albumName) {
+        var files = document.getElementById('article_image').files;
+        if (!files.length) {
+          return alert('Please choose a file to upload first.');
+        }
+        var file = files[0];
+        console.log(file);
+        var fileName = file.name;
+        var albumPhotosKey = encodeURIComponent(albumName) + '/';
+        var albumPhotosKey = albumName + '/';
+
+        var photoKey = albumPhotosKey + fileName;
+        console.log(photoKey);
+
+        // Use S3 ManagedUpload class as it supports multipart uploads
+        var upload = new AWS.S3.ManagedUpload({
+          params: {
+            Bucket: 'test-albumbucket',
+            Key: photoKey,
+            Body: file,
+          },
+        });
+
+        var promise = upload.promise();
+
+        let img_location;
+
+        promise.then(
+          function (data) {
+            //이미지 파일을 올리고 URL을 받아옴
+            img_location = JSON.stringify(data.Location).replaceAll('"', '');
+            console.log(img_location);
+
+            //upload_to_db(img_location);
+
+            return alert('Successfully uploaded photo.');
+          },
+          function (err) {
+            console.log(err);
+            return alert(
+              'There was an error uploading your photo: ',
+              err.message,
+            );
+          },
+        );
+      }
+
+      // function upload_to_db(img_location) {
+      //   var article_id = document.querySelector('#id').value;
+      //   var article_title = document.querySelector('#title').value;
+      //   var article_content = document.querySelector('#content').value;
+
+      //   var Item = {
+      //     article_id: article_id,
+      //     title: article_title,
+      //     content: article_content,
+      //     img_source: img_location,
+      //   };
+      //   console.log(Item);
+
+      //   const URL = '본인 API GATEWAY 엔드포인트';
+
+      //   fetch(URL, {
+      //     method: 'POST',
+      //     headers: {
+      //       Accept: 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       TableName: 'simple_board',
+      //       Item,
+      //     }),
+      //   })
+      //     .then((resp) => console.log(resp))
+      //     .catch((err) => console.log(err));
+      // }
+    </script>
+  </body>
+</html>

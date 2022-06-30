@@ -16,36 +16,53 @@
     <title>Find Board</title>
   </head>
   <body>
-    <div id="wall"></div>
-    <form action="#" method="POST">
-      <input
-        type="text"
-        id="search"
-        placeholder="search for title"
-        name="search"
-      />
-      <button
-        class="btn btn-primary"
-        type="button"
-        onclick="callAPI(document.getElementById('search').value)"
-      >
-        검색
-      </button>
-    </form>
+    <div class="row">
+      <div class="col-6">
+        <div id="wall">
+          <div class="row text-center">
+            <div>title</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <form action="#" method="POST">
+          <input
+            type="text"
+            id="search"
+            placeholder="search for title"
+            name="search"
+          />
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="callAPI(document.getElementById('search').value)"
+          >
+            검색
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script>
-      import config from 'config';
-      let findAll = () => {
-        fetch(`${config}/boards`)
+      (() => {
+        fetch(
+          `https://sqxpfzichh.execute-api.ap-northeast-2.amazonaws.com/dev/boards`,
+        )
           .then((response) => {
             return response.json();
           })
           .then((response) => {
-            document.querySelector('#wall').innerHTML(response);
+            const wall = document.querySelector('#wall');
+            response.forEach((element) => {
+              wall.innerHTML += `<div class="row text-center">
+                <a href='#'>${element.title}</a>
+              </div>`;
+            });
           })
           .catch((err) => {
             console.log('err', err);
           });
-      };
+      })();
       let callAPI = (search) => {
         fetch(
           `https://sqxpfzichh.execute-api.ap-northeast-2.amazonaws.com/dev/boards/${search}`,
