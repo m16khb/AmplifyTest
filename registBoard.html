@@ -46,7 +46,7 @@
           requestOptions,
           )
           .then((response) => {
-            return response.json() === '{}'? 'create success' : response.json();
+            return response.json();
           })
           .then((response)=>{
             console.log(response);
