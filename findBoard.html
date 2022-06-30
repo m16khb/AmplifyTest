@@ -34,7 +34,7 @@
     <script>
       var callAPI = (search) => {
         fetch(
-          `https://sqxpfzichh.execute-api.ap-northeast-2.amazonaws.com/dev/boards?title=${search}`,
+          `https://sqxpfzichh.execute-api.ap-northeast-2.amazonaws.com/dev/boards/${search}`,
         )
           .then((response) => {
             return response.json();
